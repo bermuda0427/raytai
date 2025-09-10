@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人才培育 - 內部訓練 | 瑞泰社會福利基金會</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft JhengHei', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #a8e6cf 0%, #7fcdcd 100%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .header .subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .mission-statement {
+            background: rgba(255,255,255,0.15);
+            padding: 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            margin-top: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Main Content */
+        .main-content {
+            background: white;
+            margin: 40px 0;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .section {
+            padding: 60px 0;
+        }
+
+        .section:nth-child(even) {
+            background: #e8f5e8;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .section-title p {
+            font-size: 1.1rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Training Categories */
+        .training-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .training-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-top: 5px solid #2e7d32;
+        }
+
+        .training-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .training-card.advanced {
+            border-top-color: #00695c;
+        }
+
+        .training-card.management {
+            border-top-color: #388e3c;
+        }
+
+        .training-card.specialized {
+            border-top-color: #1b5e20;
+        }
+
+        .training-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .training-icon {
+            font-size: 2.5rem;
+            margin-right: 15px;
+        }
+
+        .training-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .training-subtitle {
+            color: #2e7d32;
+            font-size: 0.9rem;
+        }
+
+        .course-list {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .course-list li {
+            padding: 8px 0;
+            position: relative;
+            padding-left: 25px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .course-list li::before {
+            content: '📚';
+            position: absolute;
+            left: 0;
+            font-size: 0.9rem;
+        }
+
+        .course-list li:last-child {
+            border-bottom: none;
+        }
+
+        /* Statistics Section */
+        .stats-section {
+            background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
+            color: white;
+            padding: 60px 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 30px 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            margin: 40px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, #2e7d32, #1b5e20);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            display: flex;
+            margin: 40px 0;
+            position: relative;
+        }
+
+        .timeline-item:nth-child(odd) {
+            flex-direction: row;
+        }
+
+        .timeline-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .timeline-content {
+            flex: 1;
+            padding: 0 30px;
+            max-width: 45%;
+        }
+
+        .timeline-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .timeline-date {
+            background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .timeline-marker {
+            position: absolute;
+            left: 50%;
+            top: 20px;
+            width: 20px;
+            height: 20px;
+            background: #2e7d32;
+            border-radius: 50%;
+            transform: translateX(-50%);
+            border: 4px solid white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        /* Learning Path */
+        .learning-path {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 40px 0;
+            padding: 30px;
+            background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c8 100%);
+            border-radius: 15px;
+            overflow-x: auto;
+        }
+
+        .path-step {
+            text-align: center;
+            min-width: 150px;
+            position: relative;
+        }
+
+        .path-step:not(:last-child)::after {
+            content: '→';
+            position: absolute;
+            right: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2rem;
+            color: #2e7d32;
+        }
+
+        .step-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .step-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .step-description {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Instructor Section */
+        .instructor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .instructor-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .instructor-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 2rem;
+            color: white;
+        }
+
+        /* Facilities */
+        .facilities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .facility-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .facility-image {
+            height: 200px;
+            background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+        }
+
+        .facility-content {
+            padding: 25px;
+        }
+
+        .facility-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        /* CTA Button */
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin: 10px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(46, 125, 50, 0.4);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .training-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-item {
+                flex-direction: column !important;
+            }
+
+            .timeline-content {
+                max-width: 100%;
+                margin-left: 40px;
+            }
+
+            .timeline-marker {
+                left: 20px;
+            }
+
+            .learning-path {
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            .path-step:not(:last-child)::after {
+                content: '↓';
+                position: static;
+                margin: 15px 0;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: #f0f0f0;
+            border-radius: 10px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 20px;
+            background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content fade-in">
+                <h1>人才培育 - 內部訓練</h1>
+                <p class="subtitle">持續學習 × 專業提升 × 團隊成長</p>
+                
+                <div class="mission-statement">
+                    <h3 style="margin-bottom: 15px;">🌟 訓練理念</h3>
+                    <p style="font-size: 1.1rem; line-height: 1.8;">
+                        「照顧工作沒有最好，只有更好。唯有持續學習，才能給長輩最有尊嚴的關懷。」<br>
+                        透過系統性的內部訓練，我們培育每一位同仁成為專業的照護專家，
+                        用愛心和專業成為照顧每一位長者的堅強後盾。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <!-- Training Categories -->
+            <section id="categories" class="section">
+                <div class="section-title fade-in">
+                    <h2>📚 訓練類別</h2>
+                    <p>多元化的專業訓練課程，滿足不同階層同仁的學習需求</p>
+                </div>
+
+                <div class="training-grid">
+                    <!-- Basic Training -->
+                    <div class="training-card fade-in">
+                        <div class="training-header">
+                            <div class="training-icon">🎯</div>
+                            <div>
+                                <div class="training-title">基礎技能訓練</div>
+                                <div class="training-subtitle">新進人員必修課程</div>
+                            </div>
+                        </div>
+                        
+                        <ul class="course-list">
+                            <li>機構介紹與工作職掌</li>
+                            <li>服務禮儀與溝通技巧</li>
+                            <li>基本照護技能</li>
+                            <li>感染管制與個人防護</li>
+                            <li>緊急狀況處理</li>
+                            <li>服務品質標準</li>
+                            <li>法規遵循與職業倫理</li>
+                        </ul>
+
+                        <div style="background: #e8f5e8; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                            <strong style="color: #2e7d32;">訓練時數：</strong> 24小時<br>
+                            <strong style="color: #2e7d32;">適用對象：</strong> 新進同仁、實習生
+                        </div>
+                    </div>
+
+                    <!-- Advanced Training -->
+                    <div class="training-card advanced fade-in">
+                        <div class="training-header">
+                            <div class="training-icon">🚀</div>
+                            <div>
+                                <div class="training-title">專業技能提升</div>
+                                <div class="training-subtitle">進階專業課程</div>
+                            </div>
+                        </div>
+                        
+                        <ul class="course-list">
+                            <li>失智症照護技巧</li>
+                            <li>復健輔助技術</li>
+                            <li>營養評估與餐食照護</li>
+                            <li>傷口照護與足部照護</li>
+                            <li>臥床照護與清洗技巧</li>
+                            <li>輔具使用與安全移位</li>
+                            <li>CPR+AED急救訓練</li>
+                        </ul>
+
+                        <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                            <strong style="color: #1976d2;">訓練時數：</strong> 40小時<br>
+                            <strong style="color: #1976d2;">適用對象：</strong> 在職照服員、護理人員
+                        </div>
+                    </div>
+
+                    <!-- Management Training -->
+                    <div class="training-card management fade-in">
+                        <div class="training-header">
+                            <div class="training-icon">👑</div>
+                            <div>
+                                <div class="training-title">管理職能培訓</div>
+                                <div class="training-subtitle">基層儲備主管訓練</div>
+                            </div>
+                        </div>
+                        
+                        <ul class="course-list">
+                            <li>團隊領導與激勵</li>
+                            <li>溝通協調技巧</li>
+                            <li>績效管理與考核</li>
+                            <li>衝突處理與問題解決</li>
+                            <li>品質管理與持續改善</li>
+                            <li>人力資源管理</li>
+                            <li>預算編列與成本控制</li>
+                        </ul>
+
+                        <div style="background: #fce4ec; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                            <strong style="color: #c2185b;">訓練時數：</strong> 32小時<br>
+                            <strong style="color: #c2185b;">適用對象：</strong> 基層主管、儲備幹部
+                        </div>
+                    </div>
+
+                    <!-- Specialized Training -->
+                    <div class="training-card specialized fade-in">
+                        <div class="training-header">
+                            <div class="training-icon">🧠</div>
+                            <div>
+                                <div class="training-title">特殊專業訓練</div>
+                                <div class="training-subtitle">多元文化與特殊照護</div>
+                            </div>
+                        </div>
+                        
+                        <ul class="course-list">
+                            <li>原住民文化與多元文化</li>
+                            <li>身心障礙者照護</li>
+                            <li>精神疾病照護技巧</li>
+                            <li>安寧療護概念</li>
+                            <li>家屬溝通與輔導</li>
+                            <li>社區資源連結</li>
+                            <li>創新照護服務模式</li>
+                        </ul>
+
+                        <div style="background: #ffebee; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                            <strong style="color: #d32f2f;">訓練時數：</strong> 16-24小時<br>
+                            <strong style="color: #d32f2f;">適用對象：</strong> 資深照服員、專案負責人
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Annual Schedule -->
+            <section id="schedule" class="section">
+                <div class="section-title fade-in">
+                    <h2>📅 114年度訓練計畫</h2>
+                    <p>系統性的年度訓練規劃，確保每位同仁持續成長</p>
+                </div>
+
+                <div class="timeline fade-in">
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-card">
+                                <div class="timeline-date">1-3月</div>
+                                <h3>第一季 - 基礎強化期</h3>
+                                <ul class="course-list">
+                                    <li>新進人員基礎訓練</li>
+                                    <li>CPR+AED年度複訓</li>
+                                    <li>感染管制更新課程</li>
+                                    <li>服務禮儀再教育</li>
+                                </ul>
+                                <div class="progress-container">
+                                    <div class="progress-bar" style="width: 100%;">已完成 100%</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-marker"></div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-card">
+                                <div class="timeline-date">4-6月</div>
+                                <h3>第二季 - 專業技能期</h3>
+                                <ul class="course-list">
+                                    <li>失智症照護進階課程</li>
+                                    <li>傷口照護與足部照護</li>
+                                    <li>臥床或行動不便的照護</li>
+                                    <li>個案研討會議</li>
+                                </ul>
+                                <div class="progress-container">
+                                    <div class="progress-bar" style="width: 100%;">已完成 100%</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-marker"></div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-card">
+                                <div class="timeline-date">7-9月</div>
+                                <h3>第三季 - 管理發展期</h3>
+                                <ul class="course-list">
+                                    <li>基層儲備主管訓練</li>
+                                    <li>內部講師培訓</li>
+                                    <li>原住民文化與多元文化</li>
+                                    <li>消防安全演練</li>
+                                </ul>
+                                <div class="progress-container">
+                                    <div class="progress-bar" style="width: 85%;">進行中 85%</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-marker"></div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-card">
+                                <div class="timeline-date">10-12月</div>
+                                <h3>第四季 - 創新提升期</h3>
+                                <ul class="course-list">
+                                    <li>創新照護服務模式</li>
+                                    <li>年度成果發表會</li>
+                                    <li>優秀員工經驗分享</li>
+                                    <li>次年度訓練需求調查</li>
+                                </ul>
+                                <div class="progress-container">
+                                    <div class="progress-bar" style="width: 30%;">規劃中 30%</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-marker"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Learning Path -->
+            <section id="progress" class="section">
+                <div class="section-title fade-in">
+                    <h2>🛤️ 員工學習發展路徑</h2>
+                    <p>從新進人員到專業專家的完整職涯發展規劃</p>
+                </div>
+
+                <div class="learning-path fade-in">
+                    <div class="path-step">
+                        <div class="step-icon">👤</div>
+                        <div class="step-title">新進人員</div>
+                        <div class="step-description">基礎訓練<br>24小時</div>
+                    </div>
+                    <div class="path-step">
+                        <div class="step-icon">📚</div>
+                        <div class="step-title">合格照服員</div>
+                        <div class="step-description">專業技能<br>40小時</div>
+                    </div>
+                    <div class="path-step">
+                        <div class="step-icon">⭐</div>
+                        <div class="step-title">資深照服員</div>
+                        <div class="step-description">特殊專業<br>24小時</div>
+                    </div>
+                    <div class="path-step">
+                        <div class="step-icon">👨‍🏫</div>
+                        <div class="step-title">內部講師</div>
+                        <div class="step-description">講師培訓<br>16小時</div>
+                    </div>
+                    <div class="path-step">
+                        <div class="step-icon">👑</div>
+                        <div class="step-title">基層主管</div>
+                        <div class="step-description">管理職能<br>32小時</div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Statistics Section -->
+        <section id="achievements" class="stats-section">
+            <div class="container">
+                <div class="section-title fade-in">
+                    <h2>📊 114年度學習成果</h2>
+                    <p>數據展現我們對人才培育的重視與成果</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-item fade-in">
+                        <span class="stat-number">48</span>
+                        <div class="stat-label">已完成訓練課程</div>
+                    </div>
+                    <div class="stat-item fade-in">
+                        <span class="stat-number">520</span>
+                        <div class="stat-label">參訓人次</div>
+                    </div>
+                    <div class="stat-item fade-in">
+                        <span class="stat-number">1,240</span>
+                        <div class="stat-label">總訓練時數</div>
+                    </div>
+                    <div class="stat-item fade-in">
+                        <span class="stat-number">96%</span>
+                        <div class="stat-label">課程滿意度</div>
+                    </div>
+                    <div class="stat-item fade-in">
+                        <span class="stat-number">24</span>
+                        <div class="stat-label">內部講師人數</div>
+                    </div>
+                    <div class="stat-item fade-in">
+                        <span class="stat-number">12</span>
+                        <div class="stat-label">儲備主管培訓</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="container">
+            <!-- Internal Instructors -->
+            <section id="instructors" class="section">
+                <div class="section-title fade-in">
+                    <h2>👨‍🏫 內部講師團隊</h2>
+                    <p>「用心成就專業，溫暖守護長者」- 優秀同仁化身專業講師</p>
+                </div>
+
+                <div class="instructor-grid">
+                    <div class="instructor-card fade-in">
+                        <div class="instructor-avatar">👩‍⚕️</div>
+                        <h3>護理專業組</h3>
+                        <p style="color: #666; margin: 10px 0;">資深護理師擔任講師</p>
+                        <ul class="course-list" style="text-align: left;">
+                            <li>基本照護技能</li>
+                            <li>傷口照護</li>
+                            <li>感染管制</li>
+                            <li>緊急狀況處理</li>
+                        </ul>
+                    </div>
+
+                    <div class="instructor-card fade-in">
+                        <div class="instructor-avatar">🧠</div>
+                        <h3>照護技巧組</h3>
+                        <p style="color: #666; margin: 10px 0;">資深照服員經驗傳承</p>
+                        <ul class="course-list" style="text-align: left;">
+                            <li>失智症照護</li>
+                            <li>復健輔助</li>
+                            <li>營養照護</li>
+                            <li>生活照顧技巧</li>
+                        </ul>
+                    </div>
+
+                    <div class="instructor-card fade-in">
+                        <div class="instructor-avatar">💼</div>
+                        <h3>管理職能組</h3>
+                        <p style="color: #666; margin: 10px 0;">主管級同仁分享管理經驗</p>
+                        <ul class="course-list" style="text-align: left;">
+                            <li>團隊領導</li>
+                            <li>溝通協調</li>
+                            <li>品質管理</li>
+                            <li>績效考核</li>
+                        </ul>
+                    </div>
+
+                    <div class="instructor-card fade-in">
+                        <div class="instructor-avatar">🤝</div>
+                        <h3>服務品質組</h3>
+                        <p style="color: #666; margin: 10px 0;">服務標竿同仁示範教學</p>
+                        <ul class="course-list" style="text-align: left;">
+                            <li>服務禮儀</li>
+                            <li>溝通技巧</li>
+                            <li>家屬關係</li>
+                            <li>職業倫理</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 40px; padding: 30px; background: #e8f5e8; border-radius: 15px;">
+                    <h3 style="color: #2e7d32; margin-bottom: 15px;">🌟 內部講師特色</h3>
+                    <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 20px;">
+                        我們的內部講師都是從實務工作中精選出來的優秀同仁，具備豐富的現場經驗和教學熱忱。
+                        透過「實務經驗化作溫柔力量」的理念，將專業知識和愛心傳遞給每一位學習者。
+                    </p>
+                    <a href="#" class="cta-button">成為內部講師</a>
+                </div>
+            </section>
+
+            <!-- Training Facilities -->
+            <section id="facilities" class="section">
+                <div class="section-title fade-in">
+                    <h2>🏢 訓練設施</h2>
+                    <p>完善的教學環境，提供最佳的學習體驗</p>
+                </div>
+
+                <div class="facilities-grid">
+                    <div class="facility-card fade-in">
+                        <div class="facility-image">🎓</div>
+                        <div class="facility-content">
+                            <h3 class="facility-title">多媒體教室</h3>
+                            <p>配備投影設備、音響系統，可容納50人同時上課。適合講座、研習會等大型訓練活動。</p>
+                            <ul class="course-list">
+                                <li>高清投影設備</li>
+                                <li>專業音響系統</li>
+                                <li>空調與照明設備</li>
+                                <li>舒適座椅配置</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="facility-card fade-in">
+                        <div class="facility-image">🏥</div>
+                        <div class="facility-content">
+                            <h3 class="facility-title">實習照護室</h3>
+                            <p>模擬真實照護環境，提供hands-on的實作訓練。配備標準病床、輔具等專業設備。</p>
+                            <ul class="course-list">
+                                <li>標準照護病床</li>
+                                <li>各式輔具設備</li>
+                                <li>洗手台與消毒設備</li>
+                                <li>教學用假人模型</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="facility-card fade-in">
+                        <div class="facility-image">💻</div>
+                        <div class="facility-content">
+                            <h3 class="facility-title">電腦教室</h3>
+                            <p>提供數位學習環境，進行線上課程、電腦技能訓練以及數位化學習管理。</p>
+                            <ul class="course-list">
+                                <li>20台個人電腦</li>
+                                <li>高速網路連線</li>
+                                <li>學習管理系統</li>
+                                <li>數位教材資源</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="facility-card fade-in">
+                        <div class="facility-image">🍽️</div>
+                        <div class="facility-content">
+                            <h3 class="facility-title">討論休息區</h3>
+                            <p>提供舒適的交流空間，讓同仁在課程間隙進行討論、分享經驗，促進學習互動。</p>
+                            <ul class="course-list">
+                                <li>舒適座椅區域</li>
+                                <li>茶水供應設備</li>
+                                <li>小組討論桌椅</li>
+                                <li>展示公告區域</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Footer CTA -->
+    <div style="background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%); color: white; padding: 60px 0; text-align: center;">
+        <div class="container">
+            <h2 style="margin-bottom: 20px;">🎯 一起成長，一起進步</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 30px; opacity: 0.9;">
+                投資員工就是投資未來。讓我們攜手創造更專業、更溫暖的照護服務。
+            </p>
+            <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+                <a href="#" class="cta-button" style="background: white; color: #2e7d32;">查看課程表</a>
+                <a href="#" class="cta-button" style="background: rgba(255,255,255,0.2);">報名內部訓練</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all fade-in elements
+        document.querySelectorAll('.fade-in').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+            observer.observe(el);
+        });
+
+        // Animate progress bars when they come into view
+        const progressObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const progressBar = entry.target.querySelector('.progress-bar');
+                    if (progressBar) {
+                        const width = progressBar.style.width;
+                        progressBar.style.width = '0%';
+                        setTimeout(() => {
+                            progressBar.style.width = width;
+                        }, 200);
+                    }
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.timeline-card').forEach(card => {
+            progressObserver.observe(card);
+        });
+    </script>
+</body>
+</html>
