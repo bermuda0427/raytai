@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>瑞泰網站流量統計</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 60px 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 50px;
+            line-height: 1.6;
+        }
+
+        .buttons-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .report-button {
+            display: inline-block;
+            width: 100%;
+            max-width: 400px;
+            padding: 20px 30px;
+            text-decoration: none;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .report-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .report-button:hover::before {
+            left: 100%;
+        }
+
+        .ga4-button {
+            background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+            color: white;
+        }
+
+        .ga4-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(66, 133, 244, 0.4);
+        }
+
+        .fb-button {
+            background: linear-gradient(135deg, #1877f2 0%, #42a5f5 100%);
+            color: white;
+        }
+
+        .fb-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(24, 119, 242, 0.4);
+        }
+
+        .button-icon {
+            font-size: 1.5rem;
+            margin-right: 12px;
+            vertical-align: middle;
+        }
+
+        .button-text {
+            vertical-align: middle;
+        }
+
+        .button-description {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 400;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+
+        .footer {
+            margin-top: 40px;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .date-badge {
+            display: inline-block;
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 30px;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 40px 25px;
+                margin: 10px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .report-button {
+                padding: 18px 25px;
+                font-size: 1rem;
+            }
+
+            .button-icon {
+                font-size: 1.3rem;
+                margin-right: 10px;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .buttons-container {
+                flex-direction: row;
+                justify-content: center;
+                gap: 30px;
+            }
+
+            .report-button {
+                width: auto;
+                min-width: 250px;
+            }
+        }
+
+        /* 添加一些動畫效果 */
+        .logo {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            }
+            50% {
+                box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
+            }
+            100% {
+                box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            }
+        }
+
+        .report-button {
+            animation: slideInUp 0.8s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .ga4-button {
+            animation-delay: 0.2s;
+        }
+
+        .fb-button {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">📊</div>
+        
+        <h1>瑞泰網站流量統計</h1>
+        
+        <div class="date-badge">📅 數據期間：2025年9月1日 - 9月11日</div>
+        
+        <p class="subtitle">
+            歡迎使用瑞泰照護體系數據分析平台<br>
+            選擇您要查看的統計報表
+        </p>
+
+        <div class="buttons-container">
+            <a href="ga4-2025-09-11.html" class="report-button ga4-button">
+                <span class="button-icon">🌐</span>
+                <span class="button-text">
+                    Google Analytics 4
+                    <span class="button-description">網站流量與使用者行為分析</span>
+                </span>
+            </a>
+
+            <a href="fb-2025-09-11.html" class="report-button fb-button">
+                <span class="button-icon">📘</span>
+                <span class="button-text">
+                    Facebook 洞察報告
+                    <span class="button-description">粉絲專頁互動與受眾分析</span>
+                </span>
+            </a>
+        </div>
+
+        <div class="footer">
+            <p>📈 數據驅動決策，優化數位行銷策略</p>
+        </div>
+    </div>
+
+    <script>
+        // 添加點擊動畫效果
+        document.querySelectorAll('.report-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                // 創建波紋效果
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                ripple.classList.add('ripple');
+                
+                this.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+        });
+
+        // 添加鍵盤導航支持
+        document.addEventListener('keydown', function(e) {
+            if (e.key === '1') {
+                window.location.href = 'ga4-2025-09-11.html';
+            } else if (e.key === '2') {
+                window.location.href = 'fb-2025-09-11.html';
+            }
+        });
+
+        // 載入完成後的動畫
+        window.addEventListener('load', function() {
+            document.body.style.opacity = '1';
+        });
+    </script>
+
+    <style>
+        /* 波紋效果樣式 */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(0);
+            animation: ripple-animation 0.6s linear;
+            pointer-events: none;
+        }
+
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        body {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+    </style>
+</body>
+</html>

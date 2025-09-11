@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>網站 & 社群媒體分析報表</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .dashboard {
+            max-width: 1600px;
+            margin: 0 auto;
+            display: grid;
+            grid-gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        }
+
+        .header {
+            grid-column: 1 / -1;
+            text-align: center;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .section-header {
+            grid-column: 1 / -1;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            margin: 20px 0 10px 0;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .section-header h2 {
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .card h3 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .stats-grid {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: scale(1.05);
+        }
+
+        .stat-card.facebook {
+            background: linear-gradient(135deg, #1877f2 0%, #42a5f5 100%);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .stat-change {
+            font-size: 0.8rem;
+            margin-top: 5px;
+            opacity: 0.8;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin-top: 20px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .table th,
+        .table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: bold;
+        }
+
+        .table tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .progress-bar {
+            background-color: #e9ecef;
+            border-radius: 10px;
+            height: 8px;
+            margin: 5px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-fill.facebook {
+            background: linear-gradient(90deg, #1877f2 0%, #42a5f5 100%);
+        }
+
+        .metric-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .metric-item:last-child {
+            border-bottom: none;
+        }
+
+        .metric-label {
+            font-weight: 500;
+            color: #555;
+        }
+
+        .metric-value {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .comparison-cards {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .engagement-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .engagement-item {
+            text-align: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 2px solid #1877f2;
+        }
+
+        .engagement-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1877f2;
+        }
+
+        .engagement-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .engagement-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="header">
+            <h1>📊 網站 & 社群媒體分析報表</h1>
+            <p>數據期間：2025年9月1日 - 9月10日</p>
+        </div>
+
+        <!-- 網站數據統計 -->
+        <div class="section-header">
+            <h2>🌐 網站流量統計 (Google Analytics)</h2>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">743</div>
+                <div class="stat-label">活躍使用者</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">661</div>
+                <div class="stat-label">新使用者</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">1:38</div>
+                <div class="stat-label">平均參與時間</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">1,844</div>
+                <div class="stat-label">頁面瀏覽量</div>
+            </div>
+        </div>
+
+        <!-- Facebook數據統計 -->
+        <div class="section-header">
+            <h2>📘 Facebook 粉絲專頁統計</h2>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card facebook">
+                <div class="stat-value">4,395</div>
+                <div class="stat-label">總瀏覽次數</div>
+                <div class="stat-change">+3.8% (與前10天相比)</div>
+            </div>
+            <div class="stat-card facebook">
+                <div class="stat-value">345</div>
+                <div class="stat-label">互動次數</div>
+                <div class="stat-change">+15.8% (與前10天相比)</div>
+            </div>
+            <div class="stat-card facebook">
+                <div class="stat-value">1,244</div>
+                <div class="stat-label">粉絲總數</div>
+                <div class="stat-change">+0.2% (與前10天相比)</div>
+            </div>
+            <div class="stat-card facebook">
+                <div class="stat-value">42</div>
+                <div class="stat-label">3秒以上觀看</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>📘 Facebook 互動詳細分析</h3>
+            <div class="engagement-grid">
+                <div class="engagement-item">
+                    <div class="engagement-number">328</div>
+                    <div class="engagement-label">心情反應</div>
+                </div>
+                <div class="engagement-item">
+                    <div class="engagement-number">9</div>
+                    <div class="engagement-label">留言</div>
+                </div>
+                <div class="engagement-item">
+                    <div class="engagement-number">8</div>
+                    <div class="engagement-label">分享</div>
+                </div>
+            </div>
+            <div class="chart-container">
+                <canvas id="fbEngagementChart"></canvas>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>📘 Facebook 內容類型表現</h3>
+            <div class="metric-item">
+                <span class="metric-label">📸 多相片貼文</span>
+                <span class="metric-value">72.9%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill facebook" style="width: 72.9%"></div>
+            </div>
+            <div class="metric-item">
+                <span class="metric-label">🖼️ 單張相片</span>
+                <span class="metric-value">22.3%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill facebook" style="width: 22.3%"></div>
+            </div>
+            <div class="metric-item">
+                <span class="metric-label">🎬 影片</span>
+                <span class="metric-value">4%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill facebook" style="width: 4%"></div>
+            </div>
+            <div class="metric-item">
+                <span class="metric-label">🔗 連結</span>
+                <span class="metric-value">0.7%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill facebook" style="width: 0.7%"></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>👥 Facebook 受眾年齡分布</h3>
+            <div class="chart-container">
+                <canvas id="fbAgeChart"></canvas>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>年齡層</th>
+                        <th>比例</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>45-54 歲</td>
+                        <td>30%</td>
+                    </tr>
+                    <tr>
+                        <td>35-44 歲</td>
+                        <td>24.8%</td>
+                    </tr>
+                    <tr>
+                        <td>55-64 歲</td>
+                        <td>22.1%</td>
+                    </tr>
+                    <tr>
+                        <td>65 歲以上</td>
+                        <td>11.2%</td>
+                    </tr>
+                    <tr>
+                        <td>25-34 歲</td>
+                        <td>10.5%</td>
+                    </tr>
+                    <tr>
+                        <td>18-24 歲</td>
+                        <td>1.4%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h3>🏙️ Facebook 受眾城市分布</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>城市</th>
+                        <th>比例</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>🏛️ 嘉義市</td>
+                        <td>47.5%</td>
+                    </tr>
+                    <tr>
+                        <td>🏮 臺南市</td>
+                        <td>10.6%</td>
+                    </tr>
+                    <tr>
+                        <td>🌃 新北市</td>
+                        <td>10.3%</td>
+                    </tr>
+                    <tr>
+                        <td>🏙️ 臺北市</td>
+                        <td>7%</td>
+                    </tr>
+                    <tr>
+                        <td>🌆 臺中市</td>
+                        <td>6%</td>
+                    </tr>
+                    <tr>
+                        <td>🌾 雲林</td>
+                        <td>5.4%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h3>🚀 網站流量來源分析</h3>
+            <div class="chart-container">
+                <canvas id="trafficChart"></canvas>
+            </div>
+            <div style="margin-top: 20px;">
+                <div class="metric-item">
+                    <span class="metric-label">🔍 自然搜尋 (Organic Search)</span>
+                    <span class="metric-value">787 工作階段</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 66%"></div>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-label">🌐 直接流量 (Direct)</span>
+                    <span class="metric-value">360 工作階段</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 30%"></div>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-label">📱 社群媒體 (Organic Social)</span>
+                    <span class="metric-value">5 工作階段</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0.4%"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>🌍 網站地理位置分布</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>國家/地區</th>
+                        <th>活躍使用者</th>
+                        <th>比例</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>🇹🇼 台灣 (Taiwan)</td>
+                        <td>699</td>
+                        <td>94.1%</td>
+                    </tr>
+                    <tr>
+                        <td>🇨🇳 中國 (China)</td>
+                        <td>13</td>
+                        <td>1.7%</td>
+                    </tr>
+                    <tr>
+                        <td>🇭🇰 香港 (Hong Kong)</td>
+                        <td>7</td>
+                        <td>0.9%</td>
+                    </tr>
+                    <tr>
+                        <td>🇲🇾 馬來西亞 (Malaysia)</td>
+                        <td>6</td>
+                        <td>0.8%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h3>📈 使用者活動趨勢</h3>
+            <div class="chart-container">
+                <canvas id="trendChart"></canvas>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>📄 網站熱門頁面</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>頁面標題</th>
+                        <th>瀏覽量</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>🏠 首頁 - 瑞泰照護體系</td>
+                        <td>455</td>
+                    </tr>
+                    <tr>
+                        <td>💭 情緒波動大、常常發脾氣</td>
+                        <td>112</td>
+                    </tr>
+                    <tr>
+                        <td>🏢 瑞泰社福基金會：關於我們</td>
+                        <td>112</td>
+                    </tr>
+                    <tr>
+                        <td>👴 看出爸媽是否正在失智</td>
+                        <td>74</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Facebook 互動分析圖表
+        const fbEngagementCtx = document.getElementById('fbEngagementChart').getContext('2d');
+        new Chart(fbEngagementCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['心情反應', '留言', '分享'],
+                datasets: [{
+                    data: [328, 9, 8],
+                    backgroundColor: [
+                        '#1877f2',
+                        '#42a5f5',
+                        '#64b5f6'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 20,
+                            font: {
+                                size: 12
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Facebook 年齡分布圖表
+        const fbAgeCtx = document.getElementById('fbAgeChart').getContext('2d');
+        new Chart(fbAgeCtx, {
+            type: 'bar',
+            data: {
+                labels: ['45-54歲', '35-44歲', '55-64歲', '65歲以上', '25-34歲', '18-24歲'],
+                datasets: [{
+                    data: [30, 24.8, 22.1, 11.2, 10.5, 1.4],
+                    backgroundColor: '#1877f2',
+                    borderRadius: 8,
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 35,
+                        grid: {
+                            color: 'rgba(0,0,0,0.1)'
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+
+        // 流量來源圖表
+        const trafficCtx = document.getElementById('trafficChart').getContext('2d');
+        new Chart(trafficCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['自然搜尋', '直接流量', '未分配', '社群媒體'],
+                datasets: [{
+                    data: [787, 360, 28, 5],
+                    backgroundColor: [
+                        '#667eea',
+                        '#764ba2',
+                        '#f093fb',
+                        '#f5576c'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 20,
+                            font: {
+                                size: 12
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // 趨勢圖表
+        const trendCtx = document.getElementById('trendChart').getContext('2d');
+        new Chart(trendCtx, {
+            type: 'line',
+            data: {
+                labels: ['9/1', '9/2', '9/3', '9/4', '9/5', '9/6', '9/7', '9/8', '9/9', '9/10'],
+                datasets: [{
+                    label: '網站每日活躍使用者',
+                    data: [120, 115, 95, 105, 130, 85, 140, 135, 110, 73],
+                    borderColor: '#667eea',
+                    backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4
+                }, {
+                    label: 'Facebook每日瀏覽',
+                    data: [400, 450, 380, 420, 500, 350, 520, 480, 460, 425],
+                    borderColor: '#1877f2',
+                    backgroundColor: 'rgba(24, 119, 242, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0,0,0,0.1)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            color: 'rgba(0,0,0,0.1)'
+                        }
+                    }
+                }
+            }
+        });
+
+        // 載入動畫
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.card, .stat-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>
