@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>網站流量分析報告</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft JhengHei', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+        
+        .header .period {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .card {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            border-left: 5px solid #4CAF50;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .card h3 {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .card .number {
+            font-size: 2.2em;
+            font-weight: bold;
+            color: #4CAF50;
+            margin-bottom: 5px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .section h2 {
+            color: #333;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #4CAF50;
+            display: inline-block;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+        
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .country-flag {
+            width: 20px;
+            height: 15px;
+            margin-right: 8px;
+            border-radius: 2px;
+        }
+        
+        .percentage {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .engagement-high {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        
+        .engagement-medium {
+            color: #FF9800;
+            font-weight: bold;
+        }
+        
+        .engagement-low {
+            color: #f44336;
+            font-weight: bold;
+        }
+        
+        .insight-box {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border-left: 4px solid #2196F3;
+        }
+        
+        .insight-box h3 {
+            color: #1565C0;
+            margin-bottom: 10px;
+        }
+        
+        .page-title {
+            max-width: 400px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .trend-indicator {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        
+        .trend-up {
+            background: #e8f5e8;
+            color: #4CAF50;
+        }
+        
+        .trend-down {
+            background: #ffebee;
+            color: #f44336;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌐 網站流量分析報告</h1>
+            <div class="period">📅 分析期間：2025年9月16日 至 2025年10月15日</div>
+        </div>
+        
+        <div class="content">
+            <!-- 總覽數據 -->
+            <div class="summary-cards">
+                <div class="card">
+                    <h3>活躍使用者</h3>
+                    <div class="number">2,686</div>
+                    <span class="trend-indicator trend-down">↘ 小幅下降</span>
+                </div>
+                <div class="card">
+                    <h3>新使用者</h3>
+                    <div class="number">2,556</div>
+                    <div class="percentage">佔總活躍用戶 95.16%</div>
+                </div>
+                <div class="card">
+                    <h3>總頁面瀏覽數</h3>
+                    <div class="number">5,358</div>
+                    <div class="percentage">平均每用戶 1.99 頁</div>
+                </div>
+                <div class="card">
+                    <h3>平均參與時間</h3>
+                    <div class="number">1:03</div>
+                    <div class="percentage">分鐘:秒</div>
+                </div>
+            </div>
+            
+            <!-- 地理分佈分析 -->
+            <div class="section">
+                <h2>🌍 使用者地理分佈</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>排名</th>
+                                <th>國家/地區</th>
+                                <th>活躍使用者</th>
+                                <th>新使用者</th>
+                                <th>互動工作階段</th>
+                                <th>參與度</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>🇹🇼 台灣</td>
+                                <td><strong>2,449</strong> <span class="percentage">(91.18%)</span></td>
+                                <td>2,316 <span class="percentage">(90.61%)</span></td>
+                                <td>2,003 <span class="percentage">(95.7%)</span></td>
+                                <td class="engagement-high">53.09%</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>🇨🇳 中國</td>
+                                <td>118 <span class="percentage">(4.39%)</span></td>
+                                <td>120 <span class="percentage">(4.69%)</span></td>
+                                <td>15 <span class="percentage">(0.72%)</span></td>
+                                <td class="engagement-low">12.5%</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>🇭🇰 香港</td>
+                                <td>34 <span class="percentage">(1.27%)</span></td>
+                                <td>33 <span class="percentage">(1.29%)</span></td>
+                                <td>28 <span class="percentage">(1.34%)</span></td>
+                                <td class="engagement-high">51.85%</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>🇺🇸 美國</td>
+                                <td>25 <span class="percentage">(0.93%)</span></td>
+                                <td>25 <span class="percentage">(0.98%)</span></td>
+                                <td>12 <span class="percentage">(0.57%)</span></td>
+                                <td class="engagement-medium">38.71%</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>🇲🇾 馬來西亞</td>
+                                <td>14 <span class="percentage">(0.52%)</span></td>
+                                <td>14 <span class="percentage">(0.55%)</span></td>
+                                <td>5 <span class="percentage">(0.24%)</span></td>
+                                <td class="engagement-medium">35.71%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="insight-box">
+                    <h3>💡 關鍵洞察</h3>
+                    <p><strong>台灣市場更加集中：</strong>台灣用戶佔比從上期的 88.12% 上升至 91.18%，市場集中度提高。參與度維持在 53.09% 的優秀水準。</p>
+                    <p><strong>中國市場略有改善：</strong>雖然用戶數下降，但參與度從 7.37% 提升至 12.5%，顯示用戶品質有所改善。</p>
+                    <p><strong>香港市場穩定：</strong>香港參與度維持在 51.85%，為高品質市場，值得持續關注。</p>
+                </div>
+            </div>
+            
+            <!-- 熱門頁面分析 -->
+            <div class="section">
+                <h2>📄 熱門頁面表現</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>排名</th>
+                                <th>頁面標題</th>
+                                <th>瀏覽數</th>
+                                <th>使用者數</th>
+                                <th>平均參與時間</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td class="page-title">首頁 - 瑞泰照護體系服務網</td>
+                                <td><strong>1,345</strong> <span class="percentage">(25.1%)</span></td>
+                                <td>438</td>
+                                <td>1分33秒</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td class="page-title">情緒波動大、常常發脾氣？這可能是失智症的早期表現！</td>
+                                <td>426 <span class="percentage">(7.95%)</span></td>
+                                <td>356</td>
+                                <td>43秒</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td class="page-title">為什麼爸媽越來越固執？背後的神經老化你了解嗎？</td>
+                                <td>317 <span class="percentage">(5.92%)</span></td>
+                                <td>255</td>
+                                <td>36秒</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td class="page-title">看出爸媽是否正在失智，只要聽他們說話就知道！5 個關鍵語言變化早期警訊</td>
+                                <td>251 <span class="percentage">(4.68%)</span></td>
+                                <td>233</td>
+                                <td>43秒</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td class="page-title">嘉義市瑞泰護理之家（光彩院區）</td>
+                                <td>195 <span class="percentage">(3.64%)</span></td>
+                                <td>135</td>
+                                <td>46秒</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>
