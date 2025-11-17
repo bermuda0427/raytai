@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>網站流量分析報告</title>
+    <style>
+        /* CSS 樣式表 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft JhengHei', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            /* 背景漸層 */
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            /* 標題背景漸層 */
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+        
+        .header .period {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        /* 總覽卡片網格系統 */
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .card {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            border-left: 5px solid #4CAF50;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .card h3 {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .card .number {
+            font-size: 2.2em;
+            font-weight: bold;
+            color: #4CAF50;
+            margin-bottom: 5px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .section h2 {
+            color: #333;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #4CAF50;
+            display: inline-block;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+        
+        th {
+            /* 表格標題背景 */
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .country-flag {
+            width: 20px;
+            height: 15px;
+            margin-right: 8px;
+            border-radius: 2px;
+        }
+        
+        .percentage {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        /* 參與度高低標示 */
+        .engagement-high {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        
+        .engagement-medium {
+            color: #FF9800;
+            font-weight: bold;
+        }
+        
+        .engagement-low {
+            color: #f44336;
+            font-weight: bold;
+        }
+        
+        /* 洞察見解區塊 */
+        .insight-box {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border-left: 4px solid #2196F3;
+        }
+        
+        .insight-box h3 {
+            color: #1565C0;
+            margin-bottom: 10px;
+        }
+        
+        /* 避免頁面標題過長 */
+        .page-title {
+            max-width: 400px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        /* 趨勢指標 */
+        .trend-indicator {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        
+        .trend-up {
+            background: #e8f5e8;
+            color: #4CAF50;
+        }
+        
+        .trend-down {
+            background: #ffebee;
+            color: #f44336;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 1. 更新標題和分析期間 -->
+        <div class="header">
+            <h1>🌐 網站流量分析報告</h1>
+            <div class="period">📅 分析期間：2025年11月9日 至 2025年11月16日</div>
+        </div>
+        
+        <div class="content">
+            <!-- 2. 更新總覽數據卡片 -->
+            <div class="summary-cards">
+                <div class="card">
+                    <h3>活躍使用者</h3>
+                    <div class="number">810</div>
+                </div>
+                <div class="card">
+                    <h3>新使用者</h3>
+                    <div class="number">736</div>
+                    <div class="percentage">佔總活躍用戶 90.9%</div>
+                </div>
+                <div class="card">
+                    <h3>總頁面瀏覽數</h3>
+                    <div class="number">1,330</div>
+                    <div class="percentage">平均每用戶 1.64 頁</div>
+                </div>
+                <div class="card">
+                    <h3>平均參與時間</h3>
+                    <div class="number">0:56</div>
+                    <div class="percentage">分鐘:秒</div>
+                </div>
+            </div>
+            
+            <!-- 3. 更新地理分佈表格 -->
+            <div class="section">
+                <h2>🌍 使用者地理分佈</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>排名</th>
+                                <th>國家/地區</th>
+                                <th>活躍使用者</th>
+                                <th>新使用者</th>
+                                <th>互動工作階段</th>
+                                <th>參與度</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>🇹🇼 台灣</td>
+                                <td><strong>741</strong> <span class="percentage">(91.48%)</span></td>
+                                <td>667 <span class="percentage">(90.63%)</span></td>
+                                <td>553 <span class="percentage">(93.73%)</span></td>
+                                <td class="engagement-high">54.38%</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>🇭🇰 香港</td>
+                                <td>23 <span class="percentage">(2.84%)</span></td>
+                                <td>23 <span class="percentage">(3.13%)</span></td>
+                                <td>19 <span class="percentage">(3.22%)</span></td>
+                                <td class="engagement-high">73.08%</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>🇺🇸 美國</td>
+                                <td>17 <span class="percentage">(2.1%)</span></td>
+                                <td>17 <span class="percentage">(2.31%)</span></td>
+                                <td>5 <span class="percentage">(0.85%)</span></td>
+                                <td class="engagement-medium">29.41%</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>🇨🇳 中國</td>
+                                <td>9 <span class="percentage">(1.11%)</span></td>
+                                <td>9 <span class="percentage">(1.22%)</span></td>
+                                <td>3 <span class="percentage">(0.51%)</span></td>
+                                <td class="engagement-medium">33.33%</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>🇲🇾 馬來西亞</td>
+                                <td>4 <span class="percentage">(0.49%)</span></td>
+                                <td>4 <span class="percentage">(0.54%)</span></td>
+                                <td>2 <span class="percentage">(0.34%)</span></td>
+                                <td class="engagement-medium">50%</td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td>🇦🇺 澳洲</td>
+                                <td>2 <span class="percentage">(0.25%)</span></td>
+                                <td>2 <span class="percentage">(0.27%)</span></td>
+                                <td>1 <span class="percentage">(0.17%)</span></td>
+                                <td class="engagement-medium">50%</td>
+                            </tr>
+                            <tr>
+                                <td>7</td>
+                                <td>🇨🇦 加拿大</td>
+                                <td>2 <span class="percentage">(0.25%)</span></td>
+                                <td>2 <span class="percentage">(0.27%)</span></td>
+                                <td>0 <span class="percentage">(0%)</span></td>
+                                <td class="engagement-low">0%</td>
+                            </tr>
+                            <tr>
+                                <td>8</td>
+                                <td>🇲🇴 澳門</td>
+                                <td>2 <span class="percentage">(0.25%)</span></td>
+                                <td>2 <span class="percentage">(0.27%)</span></td>
+                                <td>2 <span class="percentage">(0.34%)</span></td>
+                                <td class="engagement-high">100%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- 4. 更新關鍵洞察 -->
+                <div class="insight-box">
+                    <h3>💡 關鍵洞察</h3>
+                    <p><strong>台灣市場持續主導：</strong>台灣用戶佔比達 91.48%，且保持 54.38% 的高參與度，顯示網站內容與台灣受眾高度契合。</p>
+                    <p><strong>香港市場表現亮眼：</strong>香港用戶雖然只佔 2.84%，但參與度高達 73.08%，是所有地區中參與度第二高的市場，顯示內容品質受到香港用戶高度認可。</p>
+                    <p><strong>國際化趨勢明顯：</strong>除台灣外，來自美國、中國、馬來西亞、澳洲、加拿大和澳門等地的訪客持續增長，顯示網站影響力逐步擴展至全球華人社群。澳門用戶雖少但參與度達 100%，值得關注。</p>
+                </div>
+            </div>
+            
+            <!-- 5. 更新熱門頁面表格 -->
+            <div class="section">
+                <h2>📄 熱門頁面表現</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>排名</th>
+                                <th>頁面標題</th>
+                                <th>瀏覽數</th>
+                                <th>使用者數</th>
+                                <th>平均參與時間</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td class="page-title">情緒波動大、常常發脾氣？這可能是失智症的早期表現！</td>
+                                <td><strong>133</strong> <span class="percentage">(10%)</span></td>
+                                <td>124</td>
+                                <td>45秒</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td class="page-title">看出爸媽是否正在失智，只要聽他們說話就知道！5個關鍵語言變化早期警訊</td>
+                                <td>88 <span class="percentage">(6.62%)</span></td>
+                                <td>76</td>
+                                <td>38秒</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td class="page-title">阿嬤的手肘不是小事！早一天發現，挽救10年行動力</td>
+                                <td>59 <span class="percentage">(4.44%)</span></td>
+                                <td>58</td>
+                                <td>41秒</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td class="page-title">瑞泰居家長照機構 - 嘉義市</td>
+                                <td>43 <span class="percentage">(3.23%)</span></td>
+                                <td>26</td>
+                                <td>26秒</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td class="page-title">你以為只是忘東忘西？當心「輕度認知障礙」的5大徵兆！</td>
+                                <td>42 <span class="percentage">(3.16%)</span></td>
+                                <td>36</td>
+                                <td>23秒</td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td class="page-title">嘉義市瑞泰護理之家（光彩院區）</td>
+                                <td>42 <span class="percentage">(3.16%)</span></td>
+                                <td>29</td>
+                                <td>39秒</td>
+                            </tr>
+                            <tr>
+                                <td>7</td>
+                                <td class="page-title">為什麼爸媽越來越固執？背後的神經老化你了解嗎？</td>
+                                <td>41 <span class="percentage">(3.08%)</span></td>
+                                <td>39</td>
+                                <td>34秒</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="insight-box">
+                    <h3>💡 內容表現洞察</h3>
+                    <p><strong>失智症主題持續領先：</strong>「情緒波動」文章瀏覽量達 133 次（佔總流量 10%），「語言變化警訊」文章也有 88 次瀏覽，兩篇文章合計吸引超過 200 位使用者，顯示失智症早期症狀識別是最受關注的主題。</p>
+                    <p><strong>實用照護資訊受歡迎：</strong>「阿嬤的手肘不是小事」文章雖然標題較為生活化，但吸引了 58 位使用者深入閱讀，顯示貼近家庭照護實際情境的內容更能引發共鳴。</p>
+                    <p><strong>機構資訊獲得關注：</strong>瑞泰居家長照機構和護理之家的介紹頁面持續獲得穩定流量，顯示有明確長照需求的訪客會主動搜尋相關服務資訊。</p>
+                    <p><strong>認知障礙教育需求明確：</strong>輕度認知障礙相關文章表現穩定，顯示民眾對於失智症前期狀態的認識需求持續存在。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
